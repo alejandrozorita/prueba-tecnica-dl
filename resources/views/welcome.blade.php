@@ -1,100 +1,54 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-        <title>Laravel</title>
+@section('content')
+  <div class="container">
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+    <section>
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
+      <h3 class="h3 text-center mb-5">Listado Usuarios</h3>
 
-            .full-height {
-                height: 100vh;
-            }
+      <!--Grid row-->
+      <div class="row wow">
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+        <!--Grid column-->
+        <div class="col-12 px-4">
 
-            .position-ref {
-                position: relative;
-            }
+          <!--First row-->
+          <div class="row">
+            <table class="table">
+              <thead>
+              <tr>
+                <th scope="col">emp_no</th>
+                <th scope="col">birth_date</th>
+                <th scope="col">first_name</th>
+                <th scope="col">last_name</th>
+                <th scope="col">gender</th>
+                <th scope="col">hire_date</th>
+              </tr>
+              </thead>
+              <tbody>
+              @foreach($employees as $employer)
+                <tr>
+                  <th scope="row">{{$employer->emp_no}}</th>
+                  <td>{{$employer->getBirthDate()}}</td>
+                  <td>{{$employer->first_name}}</td>
+                  <td>{{$employer->last_name}}</td>
+                  <td>{{$employer->gender}}</td>
+                  <td>{{$employer->hire_date}}</td>
+                </tr>
+              @endforeach
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
+              </tbody>
+            </table>
+            {{ $employees->links() }}
+          </div>
 
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
         </div>
-    </body>
-</html>
+        <!--/Grid column-->
+      </div>
+      <!--/Grid row-->
+
+    </section>
+    <!--Section: Main features & Quick Start-->
+
+@endsection
