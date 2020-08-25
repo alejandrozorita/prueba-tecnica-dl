@@ -26,6 +26,22 @@ class FeatureTest extends TestCase
         $response->assertStatus(404);
     }
 
+    /** @test */
+    public function filtroManager()
+    {
+        $response = $this->get('/filter-manager');
+
+        $response->assertStatus(200);
+    }
+
+    /** @test */
+    public function filtroManagerBuscador()
+    {
+        $response = $this->get('/filter-manager?&manager=110022&from=1988-01-01&to=1993-01-01');
+
+        $response->assertStatus(200);
+    }
+
 
     /** @test */
     public function obtenerEmployer()
