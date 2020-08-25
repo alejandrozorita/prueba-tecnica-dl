@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/filter-manager', 'HomeController@filterMananager')->name('filterMananager');
 Route::any('/employer/{emp_no?}', 'HomeController@findEmployer')->name('findEmployer');
 
 Auth::routes();

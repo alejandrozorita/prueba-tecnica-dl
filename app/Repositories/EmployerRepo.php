@@ -2,51 +2,47 @@
 
 namespace App\Repositories;
 
-use App\Http\Resources\EmployerCollection;
-use App\Models\Employer;
-use Carbon\Carbon;
+use App\Models\{DepartmentEmployers, DepartmentManagers, Employer};
 
 class EmployerRepo extends Employer
 {
 
+    /**
+     * @param  int  $num
+     *
+     * @return mixed
+     */
     public function getPagiante($num = 10)
     {
         return Employer::paginate($num);
     }
 
 
+    /**
+     * @param $emp_no
+     *
+     * @return mixed
+     */
     public function find($emp_no)
     {
         return Employer::find($emp_no);
     }
 
 
-    public function getCustomData($value)
+    /**
+     * @param $manager
+     * @param $dateTo
+     * @param $dateFrom
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getEmployersByManager($manager, $dateTo, $dateFrom)
     {
-        try {
-            return Carbon::createFromFormat('Y-m-d', $this->{$value})->format('d/m/Y');
-        } catch (Exception $e) {
-            return $this->{$value};
+        $managerDepartment = DepartmentManagers::isManagerBetweenDates($manager, $dateTo, $dateFrom);
+        if (! $managerDepartment) {
+            return null;
         }
-    }
-
-
-    public function getGender()
-    {
-        return ($this->gender === 'M') ? 'Masculino' : 'Femenino';
-    }
-
-
-    public function jsonSerialize()
-    {
-        return [
-          'emp_no' => $this->emp_no,
-          'birth_date' => $this->getCustomData('birth_date'),
-          'first_name' => $this->first_name,
-          'last_name' => $this->last_name,
-          'gender' => $this->getGender(),
-          'hire_date' => $this->getCustomData('hire_date'),
-        ];
+        return DepartmentEmployers::employersDepartmenBetweenDates($managerDepartment->dept_no, $dateTo, $dateFrom);
     }
 
 }

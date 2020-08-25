@@ -21,83 +21,57 @@
         main {
             margin-top: 100px !important;
         }
+
+        .modal-body span {
+            font-weight: bold;
+        }
     </style>
+
+    @yield('css')
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar top-nav-collapse">
-            <div class="container">
+<div id="app">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar top-nav-collapse">
+        <div class="container">
 
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Prueba Técnica DL') }}
-                </a>
+            <a class="navbar-brand" href="{{ url('/') }}">
+                {{ config('app.name', 'Prueba Técnica DL') }}
+            </a>
 
-                <!-- Collapse -->
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <!-- Collapse -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <!-- Links -->
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Links -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-                    <!-- Left -->
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link waves-effect waves-light" href="{{route('home')}}">Inicio
-                                <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link waves-effect waves-light" target="_blank">Listado</a>
-                        </li>
-                    </ul>
-
-                    <!-- Right -->
-                    <ul class="navbar-nav nav-flex-icons">
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-
-                </div>
-
+                <!-- Left -->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect waves-light" href="{{route('home')}}">Employer List
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('filterMananager')}}" class="nav-link waves-effect waves-light">Employer by
+                            Manager</a>
+                    </li>
+                </ul>
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <main>
-            @yield('content')
-        </main>
-    </div>
+    <main>
+        @yield('content')
+    </main>
+</div>
 </body>
 <!--Footer-->
 <footer class="page-footer text-center font-small mt-4 "></footer>
-<script>
 
+<script>
 function getEmployer(emp_no) {
     var data = null;
     $.ajax({
@@ -105,17 +79,27 @@ function getEmployer(emp_no) {
         async: false,
         url: '{{route("findEmployer")}}' + '/' + emp_no,
         success: function (response) {
-            if(response.data) {
+            if (response.data) {
                 data = response.data;
             }
         }
     });
-    if(data != null) {
-        debugger
+    if (data != null) {
+        $("#nombreCompleto").html(data.complet_name)
+        $("#genero").html(data.gender)
+        $("#fechaNacimiento").html(data.birth_date)
+        $("#fechaContratacion").html(data.hire_date)
+        $("#salario").html(data.salary)
+        $("#titulos").html(data.titles)
+        $("#departamento").html(data.departments)
+        $('#modalInfoEmployer').modal({
+            show: true
+        })
         return data;
     }
 }
 </script>
+
 </html>
 
 
