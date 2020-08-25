@@ -98,6 +98,23 @@
 <footer class="page-footer text-center font-small mt-4 "></footer>
 <script>
 
+function getEmployer(emp_no) {
+    var data = null;
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: '{{route("findEmployer")}}' + '/' + emp_no,
+        success: function (response) {
+            if(response.data) {
+                data = response.data;
+            }
+        }
+    });
+    if(data != null) {
+        debugger
+        return data;
+    }
+}
 </script>
 </html>
 

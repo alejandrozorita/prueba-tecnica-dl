@@ -18,23 +18,23 @@
             <table class="table">
               <thead>
               <tr>
-                <th scope="col">emp_no</th>
-                <th scope="col">birth_date</th>
-                <th scope="col">first_name</th>
-                <th scope="col">last_name</th>
-                <th scope="col">gender</th>
-                <th scope="col">hire_date</th>
+                <th scope="col">Num Employer</th>
+                <th scope="col">Birth Date</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Hire Date</th>
               </tr>
               </thead>
               <tbody>
               @foreach($employees as $employer)
-                <tr>
+                <tr onclick="getEmployer({{$employer->emp_no}})">
                   <th scope="row">{{$employer->emp_no}}</th>
-                  <td>{{$employer->getBirthDate()}}</td>
+                  <td>{{$employer->getCustomData('birth_date')}}</td>
                   <td>{{$employer->first_name}}</td>
                   <td>{{$employer->last_name}}</td>
-                  <td>{{$employer->gender}}</td>
-                  <td>{{$employer->hire_date}}</td>
+                  <td>{{$employer->getGender()}}</td>
+                  <td>{{$employer->getCustomData('hire_date')}}</td>
                 </tr>
               @endforeach
 

@@ -2,30 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employer;
 use Illuminate\Http\Request;
+use Src\Models\EmployerSrc;
 
 class HomeController extends Controller
 {
+    /**
+     * @var \Src\Models\EmployerSrc
+     */
+    private $employerSrc;
+
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(EmployerSrc $employerSrc)
     {
         //$this->middleware('auth');
+        $this->employerSrc = $employerSrc;
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+
     public function index()
     {
-        $employees = Employer::paginate(10);
+        $employees = $this->employerSrc->getPaginate(10);
 
         return view('welcome', compact('employees'));
     }
+
+    public function findEmployer(Request $request)
+    {
+        if( ! $request->emp_no) {
+            return response()->json(['data' => null]);
+        }
+        return response()->json(['data' => $this->employerSrc->find($request->emp_no)]);
+    }
+
 }

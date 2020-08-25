@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Employer extends Model
 {
     protected $table = 'employees';
     protected $connection = 'mysql';
+    public $primaryKey = 'emp_no';
 
 
     public function departments()
@@ -32,16 +32,6 @@ class Employer extends Model
     public function title()
     {
         return $this->hasOne(Title::class, 'emp_no', 'emp_no');
-    }
-
-
-    public function getBirthDate()
-    {
-        try {
-           return Carbon::createFromFormat('Y-m-d', $this->birth_date)->format('m/d/Y');
-        } catch (Exception $e) {
-            return $this->birth_date;
-        }
     }
 
 }
